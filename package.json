@@ -12,11 +12,15 @@
 		"@sveltejs/adapter-vercel": "^5.4.4",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"autoprefixer": "^10.4.20",
+		"postcss": "^8.4.47",
 		"svelte": "^4.2.7",
+		"tailwindcss": "^3.4.13",
 		"vite": "^5.0.3"
 	},
 	"type": "module",
 	"dependencies": {
+		"leaflet": "^1.9.4",
 		"openmeteo": "^1.1.4",
 		"svelte-jsoneditor": "^0.23.8"
 	}
