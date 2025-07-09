@@ -1,38 +1,10 @@
-# create-svelte
+# CropChronicle
+CropChronicle is a (initially intended to be) web project created during for the SGT Synery 2024 Tech Fair under the Future Tech & Innovation category. Unfortunately ultimately I could not find a hosting solution able to host the prediction API that did not cost money due to the size (~3.5GB) of the models combined; however, the prediction and the application works flawlessy hosted locally and was demonstrated the same way in the Tech Fair.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+It is intended to provide India's farmers with data useful in regulating irrigation practices by predicting irrigation required in the coming weeks. This is accomplished by refererencing the ETc (Crop Evapotranspiration) for the planted crop with the predicted evapotranspiration to suggest irrigation requirements. The predictions are made using a TensorFlow LSTM model trained on multiple months worth of India's historical weather data.
 
-## Creating a project
+## The Concept
+India has multiple climate zones which vary by different publications and opinions. For the sake of simplicity we have chosen a official publication depicting 15 zones. The location input by the farmer is then compared to the central coordinates of all 15 zones and the distance is found using Pythagoras' Theorem. Then predictions are made using one of 15 stored models which are configured identically and correspond to the zone chosen. The evapotranspiration and temperature is then referenced with lcoal temperature and crop to produce the irrigation graph.
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## The Model
+The repository for the API of the model including the compiled models is [here](https://github.com/DepthPixels/CropChronicle-prediction-api). The idea for the LSTM model was initially from a research paper comparing different models for this specific use and was explored further when I could not find proof of implementation of this in a corporate background (although no company would really publish the type of model it uses). The training of each model was performed on approximately 3.5 years of past historical data (taken from OpenMeteo) of 4 sites (often cities) within its corresponding zone. To accomplish this initially training was done locally but due to the sheer amount of time it would take (approximately a week for all the models) it was moved to Kaggle and then finally Google Colab where using the available TPU resources the training time was cut down to ~51 hours. Training data was downloaded from OpenMeteo using a script and formatted into a .csv file for all the sites then manually uploaded to Colab where a few short snippets were written to automate training. Training was repeatedly done until the loss values and more importantly prediction graph reached a satisfactory value. The Google Colab file is available [here](https://colab.research.google.com/drive/1XX-3e_LV6KJJ4t89CjdBo4-rdsA7gX32?usp=sharing) for anyone wishing for a look into the process.
